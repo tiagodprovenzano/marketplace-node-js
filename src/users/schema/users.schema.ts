@@ -10,6 +10,7 @@ export const usersSchema = gql`
 
     type Query {
         user(id: ID!): User
+        logout(id: ID!): Boolean
     }
 
     type Mutation {

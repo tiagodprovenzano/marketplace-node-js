@@ -22,6 +22,10 @@ export class AuthAPI extends FirebaseDB {
     };
   }
 
+  async logout(id: string){
+    this.app.auth().revokeRefreshTokens(id)
+  }
+
   async login(email: string, password: string) {
     const auth = getAuth();
     return new Promise((resolve, reject) => {
