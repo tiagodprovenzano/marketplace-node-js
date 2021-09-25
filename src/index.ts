@@ -1,1 +1,1 @@
-console.log('Hello universe!')
+import './apollo/'
