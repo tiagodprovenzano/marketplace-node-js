@@ -1,0 +1,13 @@
+import { gql } from 'apollo-server-express'
+
+export const UsersSchema = `
+    type User {
+        name: String!
+        email: String!    
+    }
+
+    type Query {
+        users: [User]
+        user(id: ID!): User
+    }
+`
