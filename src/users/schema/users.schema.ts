@@ -10,10 +10,10 @@ export const usersSchema = gql`
 
     type Query {
         user(id: ID!): User
-        login(email: String!, password: String!): User
     }
 
     type Mutation {
         signup(name: String!, email: String!, password: String!): User
+        login(email: String!, password: String!): User
     }
 `

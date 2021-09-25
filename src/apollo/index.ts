@@ -7,14 +7,14 @@ import { usersSchema } from "../users/schema/users.schema";
 import express from "express";
 import { createServer } from "http";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
+import { IUser } from "../users/types/IUser";
 const resolvers = [userQuery, userMutation];
 const typeDefs = mergeTypeDefs([usersSchema]);
 
-const context = {
-  authAPI: new AuthAPI(),
+export type IContext = {
+  authAPI: AuthAPI,
+  user?: IUser | null
 };
-
-export type IContext = typeof context;
 
 async function start() {
   const app = express();
@@ -22,7 +22,26 @@ async function start() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context,
+    context: async ({req}) => {
+        const context: IContext = {
+          authAPI: new AuthAPI(),
+          user: null
+        };
+        if(req.headers.token){
+            console.log('tem token');
+            
+            let user = await context.authAPI.checkToken(req.headers.token as string)
+            if(user){
+                context.user = user as any
+            } else {
+              context.user = null
+            }
+        }else{
+          console.log('sem token', context);
+          
+        }
+        return context
+    },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
   await server.start()
