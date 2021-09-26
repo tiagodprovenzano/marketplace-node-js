@@ -8,4 +8,6 @@ export const firebase = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as ServiceAccount)
 });
 
+export const firestore = firebase.firestore();
+
 export const firebaseAuth = initializeApp(authAccount);

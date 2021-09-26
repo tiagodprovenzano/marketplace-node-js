@@ -10,8 +10,17 @@ const signup = async (
   return await authAPI.signUp(name, email, password);
 };
 
+const login = async (
+  root: any,
+  { email, password }: { email: string; password: string },
+  { authAPI }: IContext
+) => {
+  return await authAPI.login(email, password);
+};
+
 export const userMutation: IResolvers = {
   Mutation: {
     signup,
+    login
   },
 };

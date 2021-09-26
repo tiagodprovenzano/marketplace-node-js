@@ -18,21 +18,9 @@ const logout = (root: any, { id }: { id: string }, { user, authAPI }: IContext):
   return true
 };
 
-const login = async (
-  root: any,
-  { email, password }: { email: string; password: string },
-  { authAPI }: IContext
-) => {
-  return await authAPI.login(email, password);
-};
-
 export const userQuery: IResolvers = {
   Query: {
     user: getUser,
     logout
-  },
-
-  Mutation: {
-    login,
   },
 };

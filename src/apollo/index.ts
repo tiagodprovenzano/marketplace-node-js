@@ -8,12 +8,14 @@ import express from "express";
 import { createServer } from "http";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { IUser } from "../users/types/IUser";
+import { StoreAPI } from "../stores/data/StoreApi";
 const resolvers = [userQuery, userMutation];
 const typeDefs = mergeTypeDefs([usersSchema]);
 
 export type IContext = {
   authAPI: AuthAPI,
-  user?: IUser | null
+  user?: IUser | null,
+  storeApi: StoreAPI
 };
 
 async function start() {
@@ -25,6 +27,7 @@ async function start() {
     context: async ({req}) => {
         const context: IContext = {
           authAPI: new AuthAPI(),
+          storeApi: new StoreAPI(),
           user: null
         };
         if(req.headers.token){
