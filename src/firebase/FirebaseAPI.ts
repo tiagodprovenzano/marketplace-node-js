@@ -64,6 +64,8 @@ export abstract class FirebaseAPI<ReturnType extends IExtendedType> {
   }
 
   async add(payload: Omit<ReturnType, 'id'>): Promise<ReturnType | null> {
+    console.log(payload);
+    
     const addedItem = await this.db.add(payload);
     return await this.getOne(addedItem.id);
   }

@@ -1,10 +1,10 @@
 import { gql } from "apollo-server-express";
 
-export const stores = gql`
+export const storesSchema = gql`
 
   type Store {
-    id: ID!;
-    name: string;
+    id: ID!
+    name: String
     ownerId: ID!
   }
 
@@ -14,7 +14,6 @@ export const stores = gql`
 
   input AddStore {
     name: String!
-    ownerId: ID!
   }
 
   type Mutation {

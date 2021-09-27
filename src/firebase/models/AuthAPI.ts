@@ -32,6 +32,7 @@ export class AuthAPI extends FirebaseDB {
       signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredentials) => {
           const user = userCredentials.user;
+          console.log(user);
           let token = await userCredentials.user.getIdToken();
           resolve({
             id: user.uid,
@@ -40,7 +41,7 @@ export class AuthAPI extends FirebaseDB {
             token,
           });
         })
-        .catch(() => reject(new Error("Wrong credentials")));
+        .catch((e) => reject(new Error(e)));
     });
   }
 
@@ -50,8 +51,6 @@ export class AuthAPI extends FirebaseDB {
         .auth()
         .verifyIdToken(token, true)
         .then((data) => {
-          console.log(data.exp);
-          
           resolve({
             id: data.uid,
             name: data.name as string,

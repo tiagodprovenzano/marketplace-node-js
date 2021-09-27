@@ -3,17 +3,22 @@ import { IContext } from '../../apollo';
 import { IStore } from '../types/IStore';
 
 type ICreateStoreArgs = {
-  store: Omit<IStore, 'id' | 'createDate'>;
+  store: {name: string};
 };
 async function createStore(
   _root: any,
   { store }: ICreateStoreArgs,
-  { storeApi }: IContext,
+  { storeApi, user }: IContext,
 ) {
-  return storeApi.add(store);
+  if(user){
+    const newStore: Omit<IStore, 'id' | 'createDate'> = {name: store.name, ownerId: user?.id} 
+    return storeApi.add(newStore);
+  }
+  throw new Error("User not authenticated");
+  
 }
 
-const storeMutations: IResolvers = {
+export const storeMutations: IResolvers = {
   Mutation: {
     addStore: createStore,
   },

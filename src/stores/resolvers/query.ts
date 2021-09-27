@@ -12,7 +12,7 @@ async function getStores(
   { storeApi, user }: IContext,
 ): Promise<IStore[]> {
   if (user && user.id) {
-    return storeApi.getMany(['userId', '==', user.id]);
+    return storeApi.getMany(['ownerId', '==', user.id]);
   }
   throw new Error('User not authenticated');
 }

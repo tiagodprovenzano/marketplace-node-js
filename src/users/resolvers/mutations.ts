@@ -15,6 +15,8 @@ const login = async (
   { email, password }: { email: string; password: string },
   { authAPI }: IContext
 ) => {
+  console.log(email, password);
+  
   return await authAPI.login(email, password);
 };
 

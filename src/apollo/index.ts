@@ -9,8 +9,11 @@ import { createServer } from "http";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { IUser } from "../users/types/IUser";
 import { StoreAPI } from "../stores/data/StoreApi";
-const resolvers = [userQuery, userMutation];
-const typeDefs = mergeTypeDefs([usersSchema]);
+import { storesQuerys } from "../stores/resolvers/query";
+import { storeMutations } from "../stores/resolvers/mutations";
+import { storesSchema } from "../stores/schema/stores.schema";
+const resolvers = [userQuery, userMutation, storesQuerys, storeMutations];
+const typeDefs = mergeTypeDefs([usersSchema, storesSchema]);
 
 export type IContext = {
   authAPI: AuthAPI,
@@ -31,7 +34,6 @@ async function start() {
           user: null
         };
         if(req.headers.token){
-            console.log('tem token');
             
             let user = await context.authAPI.checkToken(req.headers.token as string)
             if(user){
@@ -39,9 +41,6 @@ async function start() {
             } else {
               context.user = null
             }
-        }else{
-          console.log('sem token', context);
-          
         }
         return context
     },
